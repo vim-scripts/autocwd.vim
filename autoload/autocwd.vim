@@ -46,8 +46,8 @@ filepath = vim.eval('a:filepath')
 patternwd_pairs = vim.eval('g:autocwd_patternwd_pairs')
 inpatternwd = False
 for pattern, wd in patternwd_pairs:
-	wd = vim.eval('expand(\'%s\')'%wd)
 	if fnmatch.fnmatch(filepath, pattern):
+		wd = vim.eval('expand(\'%s\')'%wd)
 		if '*REPO*' in wd:
 			wd = wd.replace('*REPO*', findRepoDirFrom(filepath))
 	   	if os.path.isdir(wd):
@@ -66,8 +66,8 @@ filepath = vim.eval('a:filepath')
 patternwd_pairs = vim.eval('g:autocwd_patternwd_pairs')
 inpatternwd = False
 for pattern, wd in patternwd_pairs:
-	wd = vim.eval('expand(\'%s\')'%wd)
 	if fnmatch.fnmatch(filepath, pattern):
+		wd = vim.eval('expand(\'%s\')'%wd)
 		if '*REPO*' in wd:
 			wd = wd.replace('*REPO*', findRepoDirFrom(filepath))
 	   	if os.path.isdir(wd):
@@ -166,5 +166,18 @@ for r in range(len(wpMat)):
 			s += ltrunc(wpMat[r][c], widths[c]-2, prefix)+'  '
 	vim.command('echo \'%s\''%s)
 	if r==0:	vim.command('echohl None')
+
+# prompt
+message = 'Type # of window to jump to or press ENTER to exit'
+vim.command('call inputsave()')
+vim.command("let user_input = input('" + message + ": ')")
+vim.command('call inputrestore()')
+user_input = vim.eval('user_input')
+if user_input.isdigit():
+	winidx = int(user_input)
+	winnum = int(vim.eval('winnr("$")'))
+	if winidx<=winnum:
+		vim.command('%dwincmd w'%winidx)
+
 EOF
 endfunction

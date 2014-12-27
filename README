@@ -1,14 +1,13 @@
 This is a mirror of http://www.vim.org/scripts/script.php?script_id=4968
 
+More information : https://github.com/yssl/autocwd.vim
+
 # autocwd.vim
 
 autocwd.vim automatically changes the current working directory (CWD) of vim 
 when you change the current buffer (or window).
 You can define patterns that may be included in a file path or buffer name,
  and corresponding working directories in your .vimrc. 
-
-This plugin requires a version of vim with python support.
-You can check your vim with `:echo has('python')`.
 
 Screenshot:
 https://cloud.githubusercontent.com/assets/5915359/3622432/de3ce5c8-0e33-11e4-8a78-ff5d8bc33d92.png
@@ -35,23 +34,27 @@ patterns are processed by python's fnmatch function internally.)
 urrent file path or buffer name.  
 It can be one of following types:
 
-	type                                         | example: working_directory | example: CWD to be changed
-	---                                             | ---                                              | ---
-	absolute path                         | '~/test'                                      | ~/test
-	vim's file name modifier (1) | '%:p:h'                                      | current file's directory
-	special keyword: '*REPO*'  | '*REPO*/bin'                           | ~/code/bin (2)
+	type                                 | example: working_directory | example: CWD to be changed
+	---                                  | ---                        | ---
+	absolute path                        | '~/test'                   | ~/test
+	vim's file name modifier (1)         | '%:p:h'                    | current file's directory
+	special keyword                      | '*REPO*' (2)               | root directory of the repository containing current file
 
 	(1) Please refer http://vimdoc.sourceforge.net/htmldoc/cmdline.html#filename-modifiers for more information.  
-	(2) '*REPO*' is replaced with the repository root directory that contains current file.  
-	The example directory structure is:
-	```
-	+-- ~/code 
-	|	+-- .git
-	|	+-- bin
-	|	+-- examples
-	|	|	+-- ex1
-	| 	|	|	+-- current file
-	```
+	(2) '*REPO*' is replaced with the root directory of the repository containing current file.  
+	- Examples:  
+		If the directory structure looks like this:
+		```
+		+-- ~/code 
+		|	+-- bin
+		|	+-- examples
+		|	|	+-- .git
+		|	|	+-- ex1
+		| 	|	|	+-- current file
+		```
+	- '\*REPO\*' : ~/code/examples
+	- '\*REPO\*/ex1' : ~/code/examples/ex1
+	- '\*REPO\*/..' : ~/code
 
 - If the current buffer matches one of the defined patterns, the CWD will 
 be changed to the corresponding working directory.
@@ -70,6 +73,7 @@ directory corresponding to the first pattern will be the CWD.
 
 **:AutoCWDPrint**  
 Print the buffer name or file path, matched pattern, and working directory of windows in the current tab.
+You can jump to one of the listed windows by typing the index(#) of the window.
 
 There is no activation commands for autocwd.vim. 
 If you install this plugin, it will starts to manage the CWD.

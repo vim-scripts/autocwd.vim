@@ -47,23 +47,27 @@ patterns are processed by python's fnmatch function internally.)
 urrent file path or buffer name.  
 It can be one of following types:
 
-	type                                 | example:<br> working_directory | example:<br> CWD to be changed
-	---                                  | ---                            | ---
-	absolute path                        | '~/test'                       | ~/test
-	vim's file name modifier (1)         | '%:p:h'                        | current file's directory
-	special keyword: '*REPO*'            | '*REPO*/bin'                 | ~/code/bin (2)
+	type                                 | example: working_directory | example: CWD to be changed
+	---                                  | ---                        | ---
+	absolute path                        | '~/test'                   | ~/test
+	vim's file name modifier (1)         | '%:p:h'                    | current file's directory
+	special keyword                      | '*REPO*' (2)               | root directory of the repository containing current file
 
 	(1) Please refer http://vimdoc.sourceforge.net/htmldoc/cmdline.html#filename-modifiers for more information.  
-	(2) '*REPO*' is replaced with the repository root directory that contains current file.  
-	The example directory structure is:
-	```
-	+-- ~/code 
-	|	+-- .git
-	|	+-- bin
-	|	+-- examples
-	|	|	+-- ex1
-	| 	|	|	+-- current file
-	```
+	(2) '*REPO*' is replaced with the root directory of the repository containing current file.  
+	- Examples:  
+		If the directory structure looks like this:
+		```
+		+-- ~/code 
+		|	+-- bin
+		|	+-- examples
+		|	|	+-- .git
+		|	|	+-- ex1
+		| 	|	|	+-- current file
+		```
+	- '\*REPO\*' : ~/code/examples
+	- '\*REPO\*/ex1' : ~/code/examples/ex1
+	- '\*REPO\*/..' : ~/code
 
 - If the current buffer matches one of the defined patterns, the CWD will 
 be changed to the corresponding working directory.
@@ -84,6 +88,7 @@ directory corresponding to the first pattern will be the CWD.
 *:AutoCWDPrint*  
 Print the buffer name or file path, matched pattern, and working directory 
 of windows in the current tab.
+You can jump to one of the listed windows by typing the index(#) of the window.
 
 There is no activation commands for autocwd.vim. 
 If you install this plugin, it will starts to manage the CWD.
@@ -138,3 +143,5 @@ Default: >
 1.2.0                       2014/10/09
     - add special keyword '*REPO*' that can be used in predefined working_directory.
     now you can set working directory to relative path from the repository directory.
+1.3.0                       2014/12/28
+    - add window selecting prompt to AutoCMDPrint command
